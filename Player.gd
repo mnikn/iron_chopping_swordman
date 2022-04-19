@@ -1,6 +1,8 @@
-extends Sprite
+extends KinematicBody2D
 
-const SPEED = 12
+const SPEED = 10
+
+var velocity = Vector2.ZERO
 var direction = "down" setget set_direction
 
 # Called when the node enters the scene tree for the first time.
@@ -14,23 +16,29 @@ func _process(delta):
 		if $AnimationPlayer.current_animation != "move_down":
 			$AnimationPlayer.play("move_down")
 			self.direction = "down"
-		self.global_position.y += SPEED
+		self.velocity = Vector2(0, SPEED)
+#		self.global_position.y += SPEED
 	elif Input.get_action_strength("player_move_up") > 0:
 		if $AnimationPlayer.current_animation != "move_up":
 			$AnimationPlayer.play("move_up")
 			self.direction = "up"
-		self.global_position.y -= SPEED
+		self.velocity = Vector2(0, -SPEED)
+#		self.global_position.y -= SPEED
 	elif Input.get_action_strength("player_move_left") > 0:
 		$AnimationPlayer.play("move_left")
 		self.direction = "left"
-		self.global_position.x -= SPEED
+		self.velocity = Vector2(-SPEED, 0)
+#		self.global_position.x -= SPEED
 	elif Input.get_action_strength("player_move_right") > 0:
 		$AnimationPlayer.play("move_right")
 		self.direction = "right"
-		self.global_position.x += SPEED
+		self.velocity = Vector2(SPEED, 0)
+#		self.global_position.x += SPEED
 	else:
 		$AnimationPlayer.play("idle_" + self.direction)
+		self.velocity = Vector2.ZERO
+	self.move_and_collide(self.velocity)
 
 func set_direction(val):
 	direction = val
-	self.flip_h = val == "right"
+	$Sprite.flip_h = val == "right"
