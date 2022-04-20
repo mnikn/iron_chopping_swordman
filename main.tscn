@@ -1,18 +1,77 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/player-sheet.png" type="Texture" id=2]
 [ext_resource path="res://Player.gd" type="Script" id=3]
 [ext_resource path="res://assets/map/map1.png" type="Texture" id=4]
-[ext_resource path="res://shader/outline.gdshader" type="Shader" id=5]
 
-[sub_resource type="ShaderMaterial" id=11]
-shader = ExtResource( 5 )
-shader_param/color = Color( 0.12549, 0.113725, 0.113725, 1 )
-shader_param/width = 1.0
-shader_param/pattern = 0
-shader_param/inside = false
-shader_param/add_margins = false
+[sub_resource type="Animation" id=21]
+resource_name = "attack_down"
+length = 0.2
+step = 0.04
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( -0.00138777, 0.04, 0.08, 0.16 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 0, 216, 24, 48 ), Rect2( 24, 216, 24, 48 ), Rect2( 48, 216, 24, 48 ), Rect2( 72, 216, 24, 48 ) ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "attack_left"
+length = 0.2
+step = 0.04
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.04, 0.08, 0.16 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 0, 144, 48, 24 ), Rect2( 48, 144, 48, 24 ), Rect2( 96, 144, 48, 24 ), Rect2( 144, 144, 48, 24 ) ]
+}
+
+[sub_resource type="Animation" id=20]
+resource_name = "attack_right"
+length = 0.2
+step = 0.04
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.04, 0.08, 0.16 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 0, 144, 48, 24 ), Rect2( 48, 144, 48, 24 ), Rect2( 96, 144, 48, 24 ), Rect2( 144, 144, 48, 24 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "attack_up"
+length = 0.2
+step = 0.04
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( -0.00138777, 0.04, 0.08, 0.16 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 0, 168, 24, 48 ), Rect2( 24, 168, 24, 48 ), Rect2( 48, 168, 24, 48 ), Rect2( 72, 168, 24, 48 ) ]
+}
 
 [sub_resource type="Animation" id=1]
 resource_name = "idle_down"
@@ -176,17 +235,20 @@ collision_mask = 16
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="Player"]
-material = SubResource( 11 )
 scale = Vector2( 4, 4 )
 texture = ExtResource( 2 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 24, 24 )
+region_rect = Rect2( 72, 216, 24, 48 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
 root_node = NodePath("../Sprite")
+anims/attack_down = SubResource( 21 )
+anims/attack_left = SubResource( 16 )
+anims/attack_right = SubResource( 20 )
+anims/attack_up = SubResource( 18 )
 anims/idle_down = SubResource( 1 )
 anims/idle_left = SubResource( 9 )
 anims/idle_right = SubResource( 5 )
