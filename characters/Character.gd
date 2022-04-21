@@ -31,3 +31,6 @@ func play_animation(animation):
 func set_direction(val):
 	direction = val
 	$Sprite.flip_h = val == "right"
+
+func get_direction_vel():
+	return $AnimationTree.get("parameters/move/blend_position")

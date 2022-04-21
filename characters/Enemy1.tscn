@@ -13,7 +13,7 @@ script = ExtResource( 3 )
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource( 2 )
-region_rect = Rect2( 0, 48, 24, 24 )
+region_rect = Rect2( 24, 0, 24, 24 )
 
 [node name="AnimationTree" parent="." index="3"]
 parameters/playback = SubResource( 1 )
