@@ -1,6 +1,8 @@
 extends KinematicBody2D
 
-const SPEED = 10
+const FRICTION = 2000
+const SPEED = 600
+const ACCELERATION = SPEED
 const ATTACK_SPPED = 25
 
 var velocity = Vector2.ZERO
@@ -47,31 +49,29 @@ func _process(delta):
 		self.move_and_collide(self.velocity)
 		return
 
-	if Input.get_action_strength("player_move_down") > 0:
-		if $AnimationPlayer.current_animation != "move_down":
-			$AnimationPlayer.play("move_down")
-			self.direction = "down"
-		self.velocity = Vector2(0, SPEED)
-#		self.global_position.y += SPEED
-	elif Input.get_action_strength("player_move_up") > 0:
-		if $AnimationPlayer.current_animation != "move_up":
+	var input_vel = Vector2.ZERO
+	input_vel.y = Input.get_action_strength("player_move_down") - Input.get_action_strength("player_move_up")
+	input_vel.x = Input.get_action_strength("player_move_right") - Input.get_action_strength("player_move_left")
+	input_vel = input_vel.normalized()
+	
+	if input_vel != Vector2.ZERO:
+		self.velocity += input_vel * ACCELERATION * delta
+		self.velocity = velocity.clamped(SPEED * delta)
+		if input_vel.y < 0:
 			$AnimationPlayer.play("move_up")
 			self.direction = "up"
-		self.velocity = Vector2(0, -SPEED)
-#		self.global_position.y -= SPEED
-	elif Input.get_action_strength("player_move_left") > 0:
-		$AnimationPlayer.play("move_left")
-		self.direction = "left"
-		self.velocity = Vector2(-SPEED, 0)
-#		self.global_position.x -= SPEED
-	elif Input.get_action_strength("player_move_right") > 0:
-		$AnimationPlayer.play("move_right")
-		self.direction = "right"
-		self.velocity = Vector2(SPEED, 0)
-#		self.global_position.x += SPEED
+		elif input_vel.y > 0:
+			$AnimationPlayer.play("move_down")
+			self.direction = "down"
+		elif input_vel.x < 0:
+			$AnimationPlayer.play("move_left")
+			self.direction = "left"
+		elif input_vel.x > 0:
+			$AnimationPlayer.play("move_right")
+			self.direction = "right"
 	else:
+		self.velocity = self.velocity.move_toward(Vector2.ZERO, FRICTION * delta)
 		$AnimationPlayer.play("idle_" + self.direction)
-		self.velocity = Vector2.ZERO
 	self.move_and_collide(self.velocity)
 
 func set_direction(val):

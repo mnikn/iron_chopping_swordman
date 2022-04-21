@@ -1,40 +1,52 @@
 extends KinematicBody2D
 
-export var SPEED = 10
-const ATTACK_SPPED = 25
+export var FRICTION = 2000
+export var SPEED = 600
+export var ACCELERATION = 600
 
 var velocity = Vector2.ZERO
 var direction = "down" setget set_direction
 
+var BulletScene = preload("res://Bullet.tscn")
+
+func _ready():
+	yield(self.get_tree().create_timer(1), "timeout")
+	self.shoot()
+
 func _process(delta):
-#	if self.attacking:
-#		self.move_and_collide(self.velocity)
-#		return
-#
-#	if Input.get_action_strength("player_move_down") > 0:
-#		if $AnimationPlayer.current_animation != "move_down":
-#			$AnimationPlayer.play("move_down")
-#			self.direction = "down"
-#		self.velocity = Vector2(0, SPEED)
-#	elif Input.get_action_strength("player_move_up") > 0:
-#		if $AnimationPlayer.current_animation != "move_up":
-#			$AnimationPlayer.play("move_up")
-#			self.direction = "up"
-#		self.velocity = Vector2(0, -SPEED)
-#	elif Input.get_action_strength("player_move_left") > 0:
-#		$AnimationPlayer.play("move_left")
-#		self.direction = "left"
-#		self.velocity = Vector2(-SPEED, 0)
-#	elif Input.get_action_strength("player_move_right") > 0:
-#		$AnimationPlayer.play("move_right")
-#		self.direction = "right"
-#		self.velocity = Vector2(SPEED, 0)
-#	else:
-#		$AnimationPlayer.play("idle_" + self.direction)
-#		self.velocity = Vector2.ZERO
+	var input_vel =self.get_input_velocity()
+	
+	if input_vel != Vector2.ZERO:
+		self.velocity += input_vel * ACCELERATION * delta
+		self.velocity = velocity.clamped(SPEED * delta)
+		if self.velocity.y < 0:
+			$AnimationPlayer.play("move_up")
+			self.direction = "up"
+		elif self.velocity.y > 0:
+			$AnimationPlayer.play("move_down")
+			self.direction = "down"
+		elif self.velocity.x < 0:
+			$AnimationPlayer.play("move_left")
+			self.direction = "left"
+		elif self.velocity.x > 0:
+			$AnimationPlayer.play("move_right")
+			self.direction = "right"
+	else:
+		self.velocity = self.velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+	
 	if self.velocity == Vector2.ZERO:
 		$AnimationPlayer.play("idle_" + self.direction)
 	self.move_and_collide(self.velocity)
+
+func get_input_velocity():
+	return Vector2.ZERO
+	
+func shoot():
+	var node = self.BulletScene.instance()
+	node.set_as_toplevel(true)
+	node.global_position = self.global_position
+	node.direction = Vector2(0,1)
+	self.add_child(node)
 
 func set_direction(val):
 	direction = val

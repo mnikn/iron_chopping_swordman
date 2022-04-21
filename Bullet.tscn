@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/textures/bullet.png" type="Texture" id=1]
+[ext_resource path="res://Bullet.gd" type="Script" id=2]
+
+[sub_resource type="CircleShape2D" id=23]
+radius = 2.23607
+
+[node name="Bullet" type="Sprite"]
+position = Vector2( 691, 313 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Check" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 17
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Check"]
+shape = SubResource( 23 )
+
+[connection signal="body_entered" from="Check" to="." method="_on_Check_body_entered"]
