@@ -1,9 +1,10 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/player-sheet.png" type="Texture" id=2]
 [ext_resource path="res://Player.gd" type="Script" id=3]
 [ext_resource path="res://assets/map/map1.png" type="Texture" id=4]
+[ext_resource path="res://Enemy1.tscn" type="PackedScene" id=5]
 
 [sub_resource type="Animation" id=21]
 resource_name = "attack_down"
@@ -232,10 +233,15 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="Enemy1" parent="." instance=ExtResource( 5 )]
+
 [node name="Player" type="KinematicBody2D" parent="."]
 position = Vector2( 589, 250 )
 collision_mask = 16
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Sprite" type="Sprite" parent="Player"]
 scale = Vector2( 4, 4 )
@@ -275,63 +281,65 @@ position = Vector2( 3, 2 )
 scale = Vector2( 4, 4 )
 shape = SubResource( 13 )
 
-[node name="Top" type="StaticBody2D" parent="."]
+[node name="Collisions" type="Node2D" parent="."]
+
+[node name="Top" type="StaticBody2D" parent="Collisions"]
 collision_layer = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Top"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/Top"]
 position = Vector2( 977.5, 51.5 )
 shape = SubResource( 14 )
 one_way_collision_margin = 0.0
 
-[node name="TopCorner" type="StaticBody2D" parent="."]
+[node name="TopCorner" type="StaticBody2D" parent="Collisions"]
 collision_layer = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TopCorner"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/TopCorner"]
 position = Vector2( 126, 119 )
 shape = SubResource( 22 )
 one_way_collision_margin = 0.0
 
-[node name="TopRight" type="StaticBody2D" parent="."]
+[node name="TopRight" type="StaticBody2D" parent="Collisions"]
 collision_layer = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TopRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/TopRight"]
 position = Vector2( 1792, 124 )
 shape = SubResource( 22 )
 one_way_collision_margin = 0.0
 
-[node name="BottomLeft" type="StaticBody2D" parent="."]
+[node name="BottomLeft" type="StaticBody2D" parent="Collisions"]
 collision_layer = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/BottomLeft"]
 position = Vector2( 138, 974 )
 shape = SubResource( 22 )
 one_way_collision_margin = 0.0
 
-[node name="BottomRight" type="StaticBody2D" parent="."]
+[node name="BottomRight" type="StaticBody2D" parent="Collisions"]
 collision_layer = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/BottomRight"]
 position = Vector2( 1779, 961 )
 shape = SubResource( 22 )
 one_way_collision_margin = 0.0
 
-[node name="Bottom" type="StaticBody2D" parent="."]
+[node name="Bottom" type="StaticBody2D" parent="Collisions"]
 collision_layer = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bottom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/Bottom"]
 position = Vector2( 974, 1039.75 )
 shape = SubResource( 14 )
 
-[node name="Left" type="StaticBody2D" parent="."]
+[node name="Left" type="StaticBody2D" parent="Collisions"]
 collision_layer = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Left"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/Left"]
 position = Vector2( 56.5, 524.25 )
 shape = SubResource( 15 )
 
-[node name="Right" type="StaticBody2D" parent="."]
+[node name="Right" type="StaticBody2D" parent="Collisions"]
 collision_layer = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Right"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/Right"]
 position = Vector2( 1873.75, 530 )
 shape = SubResource( 15 )

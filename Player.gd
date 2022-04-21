@@ -32,12 +32,14 @@ func _input(event):
 		self.add_child(tween)
 		tween.start()
 		self.attacking = true
+		self.collision_mask = 0
 		yield(tween, "tween_all_completed")
 		yield($AnimationPlayer, "animation_finished")
 		yield(self.get_tree().create_timer(0.03), "timeout")
 		self.velocity = Vector2.ZERO
 		yield(self.get_tree().create_timer(0.07), "timeout")
 		self.attacking = false
+		self.collision_mask = 5
 		tween.queue_free()
 
 func _process(delta):
