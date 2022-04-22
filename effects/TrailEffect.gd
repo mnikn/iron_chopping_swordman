@@ -2,21 +2,22 @@ extends Line2D
 signal finished()
 
 export var max_length = 50
-var point = Vector2()
+
+var tick = 0
+const STEP = 2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	self.set_as_toplevel(true)
-
-func _process(delta):
 	self.global_position = Vector2.ZERO
 	self.global_rotation = 0
+
+func _process(delta):
+	if not self.get_parent().global_position in self.points:
+		var point = self.get_parent().global_position
+		add_point(point)	
 	
-	self.point = self.get_parent().global_position
-	
-	add_point(self.point)
-	
-	if self.get_point_count() > self.max_length:
+	tick += 1
+	if tick % STEP == 0:
 		self.remove_point(0)
-		if self.get_point_count() == 0:
-			self.emit_signal("finished")
+

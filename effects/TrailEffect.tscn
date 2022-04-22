@@ -6,6 +6,5 @@
 _data = [ Vector2( 0.00741839, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.123824, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.246081, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="TrailEffect" type="Line2D"]
-points = PoolVector2Array( 212, 110 )
 width_curve = SubResource( 23 )
 script = ExtResource( 1 )
